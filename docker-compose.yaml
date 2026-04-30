@@ -1,0 +1,88 @@
+services:
+  # 1. Kho lưu trữ S3 (MinIO)
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=SuperSecret123!
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - healthcare_net
+
+  # 2. Cơ sở dữ liệu (PostgreSQL)
+  postgres:
+    image: postgres:14-alpine
+    container_name: postgres
+    ports:
+      - "5437:5432"
+    environment:
+      - POSTGRES_USER=healthcare_admin
+      - POSTGRES_PASSWORD=SecurePass2026!
+      - POSTGRES_DB=medical_features
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - healthcare_net
+
+  # 3. Máy chủ theo dõi (MLflow)
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:latest
+    container_name: mlflow
+    ports:
+      - "5001:5000"
+    environment:
+      - MLFLOW_BACKEND_STORE_URI=postgresql://healthcare_admin:SecurePass2026!@postgres:5432/medical_features
+    command: >
+      mlflow server 
+      --host 0.0.0.0 
+      --port 5000 
+      --allowed-hosts="*" 
+      --cors-allowed-origins="*"
+    depends_on:
+      - postgres
+      - minio
+    networks:
+      - healthcare_net
+
+  # 4. AI API (FastAPI)
+  api:
+    build: .
+    container_name: healthcare_api1
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    # Sửa thành api.app:app cho đúng tên file bạn đã tạo
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
+    depends_on:
+      - mlflow
+    networks:
+      - healthcare_net
+
+  # 5. Giao diện Bác sĩ (Streamlit)
+  healthcare_ui:
+    build: .
+    container_name: healthcare_ui
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    command: streamlit run ui/streamlit_app.py --server.port 8501 --server.address 0.0.0.0
+    depends_on:
+      - api
+    networks:
+      - healthcare_net
+
+volumes:
+  minio_data:
+  pg_data:
+
+networks:
+  healthcare_net:
+    driver: bridge

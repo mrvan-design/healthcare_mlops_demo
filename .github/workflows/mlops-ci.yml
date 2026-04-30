@@ -1,0 +1,37 @@
+name: Healthcare MLOps Pipeline
+
+# Kích hoạt khi có code đẩy lên nhánh main
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest # Chạy trên máy chủ ảo của GitHub
+
+    steps:
+    - name: 📥 Lấy source code
+      uses: actions/checkout@v3
+
+    - name: 🐍 Cài đặt Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: 📦 Cài đặt thư viện (Dependencies)
+      run: |
+        python -m pip install --upgrade pip
+        pip install fastapi uvicorn pytest httpx torch pydantic
+
+    - name: 🧪 Chạy Unit Test (CI)
+      run: |
+        pytest test_api.py
+    - name: 🧪 Chạy Automated Testing (API, Data, Model, Airflow)
+      run: |
+        pytest test_api.py test_mlops.py
+    - name: 🐳 Kiểm tra Build Docker (CD Readiness)
+      run: |
+        docker compose build
+    

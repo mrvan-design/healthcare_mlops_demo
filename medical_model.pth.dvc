@@ -1,0 +1,5 @@
+outs:
+- md5: ed08d582e95cba02f638dcf2279e6971
+  size: 1333766
+  hash: md5
+  path: medical_model.pth

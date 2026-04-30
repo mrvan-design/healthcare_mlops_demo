@@ -1,0 +1,16 @@
+# Bỏ qua môi trường ảo
+venv/
+.env
+
+# Bỏ qua các file rác của Python
+__pycache__/
+*.pyc
+
+# Bỏ qua Data và Model (đã có DVC lo)
+*.pth
+*.csv
+*.pt
+
+# Bỏ qua logs của hệ thống
+logs/
+*.log
