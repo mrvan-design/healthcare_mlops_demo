@@ -27,10 +27,10 @@ jobs:
 
     - name: 🧪 Chạy Unit Test (CI)
       run: |
-        pytest test_api.py
+        pytest 
     - name: 🧪 Chạy Automated Testing (API, Data, Model, Airflow)
       run: |
-        pytest test_api.py test_mlops.py
+        pytest 
     - name: 🐳 Kiểm tra Build Docker (CD Readiness)
       run: |
         docker compose build
