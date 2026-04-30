@@ -1,6 +1,5 @@
 # 🏥 Hệ thống Trí tuệ Y tế (Healthcare Intelligence System) - MLOps Pipeline
 
-![CI/CD Status](https://img.shields.io/github/actions/workflow/status/[TÊN-GITHUB-CỦA-BẠN]/[TÊN-REPO]/mlops-ci.yml?label=CI%2FCD%20Pipeline&style=for-the-badge)
 ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
 ![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)
@@ -52,8 +51,8 @@ Dự án áp dụng mô hình Microservices, được đóng gói toàn bộ b�
 ### Khởi chạy hệ thống bằng 1 lệnh duy nhất (One-click Run)
 ```bash
 # 1. Clone repository
-git clone [https://github.com/](https://github.com/)[TÊN-GITHUB-CỦA-BẠN]/[TÊN-REPO].git
-cd [TÊN-REPO]
+git clone https://github.com/mrvan-design/healthcare_mlops_demo.git
+cd healthcare_mlops_demo
 
 # 2. Xây dựng và khởi chạy các container (API & UI)
 docker-compose up -d --build
@@ -100,6 +99,7 @@ test_mlops.py: Kiểm định Tensor output của mô hình và tính toàn vẹ
 
 👤 Thông tin Tác giả
 Nguyễn Văn Tài
+Linkedn : 
 
 Đại học Công nghiệp TP.HCM (IUH)
 
